@@ -35,10 +35,13 @@
 <h1>Arkanoid Minimalist Game</h1>
 
 <canvas></canvas>
+<img hidden id="bricks" src="/img/bricksMonocromaticBlack.png" alt="bricks">
 
 <script>
     const canvas =document.querySelector('canvas');
     const ctx = canvas.getContext('2d');
+
+    const $bricks = document.querySelector('#bricks')
 
     canvas.width= 300
     canvas.height = 400
@@ -60,7 +63,38 @@
 
     // variables paleta
     const paddleHeight = 10;
-    const paddleWidth = 60;    
+    const paddleWidth = 60;
+    
+    // variables ladrillos
+    const brickRowCount = 6;
+    const brickColumnCount = 8;
+    const brickWidth = 30;
+    const brickHight = 15;
+    const brickPadding = 4;
+    const brickOffsetTop = 40;
+    const brickOffsetLeft = 15;
+    const bricks = [];
+
+    const BRICK_STATUS = {
+        ACTIVE: 1,
+        DESTROY: 0
+    }
+    
+    for (let c = 0; c < brickColumnCount; c++) {
+        bricks[c] = []
+        for (let r = 0; r < brickRowCount; r++) {
+            const bricksX = c * (brickWidth + brickPadding) + brickOffsetLeft
+            const bricksY = r * (brickHight + brickPadding) + brickOffsetTop
+
+            const random = Math.floor(Math.random() * 4)
+
+            bricks[c][r] = { 
+                x: bricksX, 
+                y: bricksY, 
+                status: BRICK_STATUS.ACTIVE , 
+                color: random }
+        }
+    }
 
     let paddleX = (canvas.width - paddleWidth) / 2
     let paddleY = canvas.height - paddleHeight -10
@@ -96,9 +130,52 @@
     ctx.fill();
 }
 
-    function drawBricks() { }
+    function drawBricks() {
+        for (let c = 0; c < brickColumnCount; c++) {
+            for (let r = 0; r < brickRowCount; r++) {
+                const currentBrick = bricks[c][r]
+                if (currentBrick.status === BRICK_STATUS.DESTROY)
+                continue;
 
-    function collisionDetection() { }
+                const clipX = currentBrick.color * 32
+
+                ctx.drawImage(
+                    $bricks,
+                    clipX,
+                    0,
+                    32,
+                    14,
+                    currentBrick.x,
+                    currentBrick.y,
+                    brickWidth,
+                    brickHight
+                )
+            }
+        }
+    }
+
+    function collisionDetection() {
+        for (let c = 0; c < brickColumnCount; c++) {
+            for (let r = 0; r < brickRowCount; r++) {
+                const currentBrick = bricks[c][r]
+                if (currentBrick.status === BRICK_STATUS.DESTROY) continue;
+
+                const isBallSameXAsBrick =
+                    x > currentBrick.x &&
+                    x < currentBrick.x + brickWidth
+
+                    const isBallSameYAsBrick =
+                    y > currentBrick.y &&
+                    y < currentBrick.y + brickHight
+
+                if (isBallSameXAsBrick && isBallSameYAsBrick) {
+                    dy = -dy
+                    currentBrick.status = BRICK_STATUS.DESTROY
+                }
+            }
+        }
+    }
+
     function paddleMovent() {
         if (rightPressed && paddleX < canvas.width - paddleWidth) {
             paddleX += paddleSensibility
