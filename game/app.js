@@ -209,6 +209,6 @@ function draw() {
     window.requestAnimationFrame(draw);
 }
 
-// Start the game
+// Start the game!
 draw();
 initEvents();
