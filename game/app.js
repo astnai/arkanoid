@@ -11,6 +11,8 @@ canvas.height = 400;
 
 // Game variables
 let counter = 0; // Counter for game-related operations
+let gameOver = false; // Flag to track game over
+let score = 0; // Variable to store the score
 
 // Ball variables
 const ballRadius = 4; // Radius of the ball
@@ -32,7 +34,7 @@ const paddleSensibility = 5; // Sensitivity of paddle movement
 const brickRowCount = 6; // Number of rows of bricks
 const brickColumnCount = 8; // Number of columns of bricks
 const brickWidth = 30; // Width of each brick
-const brickHight = 15; // Height of each brick
+const brickHeight = 15; // Height of each brick
 const brickPadding = 4; // Padding between bricks
 const brickOffsetTop = 40; // Offset from the top of the canvas
 const brickOffsetLeft = 15; // Offset from the left of the canvas
@@ -49,7 +51,7 @@ for (let c = 0; c < brickColumnCount; c++) {
     bricks[c] = [];
     for (let r = 0; r < brickRowCount; r++) {
         const bricksX = c * (brickWidth + brickPadding) + brickOffsetLeft;
-        const bricksY = r * (brickHight + brickPadding) + brickOffsetTop;
+        const bricksY = r * (brickHeight + brickPadding) + brickOffsetTop;
         const random = Math.floor(Math.random() * 4);
         bricks[c][r] = { 
             x: bricksX, 
@@ -104,7 +106,7 @@ function drawBricks() {
                 currentBrick.x,
                 currentBrick.y,
                 brickWidth,
-                brickHight
+                brickHeight
             );
         }
     }
@@ -117,10 +119,11 @@ function collisionDetection() {
             const currentBrick = bricks[c][r];
             if (currentBrick.status === BRICK_STATUS.DESTROY) continue;
             const isBallSameXAsBrick = x > currentBrick.x && x < currentBrick.x + brickWidth;
-            const isBallSameYAsBrick = y > currentBrick.y && y < currentBrick.y + brickHight;
+            const isBallSameYAsBrick = y > currentBrick.y && y < currentBrick.y + brickHeight;
             if (isBallSameXAsBrick && isBallSameYAsBrick) {
                 dy = -dy;
                 currentBrick.status = BRICK_STATUS.DESTROY;
+                score++; // Increase score when a brick is destroyed
             }
         }
     }
@@ -156,8 +159,7 @@ function ballMovement() {
     
     // Ball hitting the bottom (Game Over)
     else if (y + dy > canvas.height - ballRadius) {
-        console.log('Game Over');
-        document.location.reload();
+        gameOver = true; // Set game over flag
     }
 
     x += dx;
@@ -167,6 +169,21 @@ function ballMovement() {
 // Function to clear the canvas
 function cleanCanvas() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+}
+
+// Function to draw the game over text
+function drawGameOver() {
+    ctx.font = 'bold 30px Arial';
+    ctx.fillStyle = 'black';
+    ctx.textAlign = 'center';
+    ctx.fillText('GAME OVER', canvas.width / 2, canvas.height / 2);
+}
+
+// Function to update and draw the score
+function drawScore() {
+    ctx.font = '16px Arial';
+    ctx.fillStyle = '#1c1c1c';
+    ctx.fillText('Score: ' + score, 8, 20);
 }
 
 // Initialize keyboard event listeners
@@ -200,11 +217,17 @@ function draw() {
     drawBall();
     drawPaddle();
     drawBricks();
+    drawScore(); // Draw the score
 
     // Handle collisions and movements
     collisionDetection();
     paddleMovement();
     ballMovement();
+
+    if (gameOver) {
+        drawGameOver();
+        return; // Stop the game loop
+    }
 
     window.requestAnimationFrame(draw);
 }
