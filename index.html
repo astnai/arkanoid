@@ -1,11 +1,170 @@
-<!DOCTYPE html>
-<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=><, initial-scale=1.0">
-    <title>Document</title>
+    <title>Arkanoid Minimalist Game</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        h1{
+            font-family: 'Montserrat', sans-serif;
+            font-size: 20px;
+            color: #1c1c1c;
+            text-align: center;
+            margin: 20 auto;
+            display: block;
+        }
+    
+        body{
+            background-color: #fcfcfc;
+        }
+    
+        canvas{
+            border: 2.5px solid #1c1c1c;
+            border-bottom: transparent;
+            background: #F2F3F5;
+            margin: 20 auto;
+            display: block;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px; 
+    
+        }
+    </style>
 </head>
+
 <body>
     
+<h1>Arkanoid Minimalist Game</h1>
+
+<canvas></canvas>
+
+<script>
+    const canvas =document.querySelector('canvas');
+    const ctx = canvas.getContext('2d');
+
+    canvas.width= 300
+    canvas.height = 400
+
+    
+    //variables del juego
+    let counter = 0
+
+    // variables de la pelota
+    const ballRadius = 4;
+
+    // posicion de la pelota
+    let x = canvas.width / 2;
+    let y = canvas.height - 22;
+
+    // velocidad de la pelota
+    let dx = 2
+    let dy = -2 
+
+    // variables paleta
+    const paddleHeight = 10;
+    const paddleWidth = 60;    
+
+    let paddleX = (canvas.width - paddleWidth) / 2
+    let paddleY = canvas.height - paddleHeight -10
+
+    let rightPressed = false
+    let leftPressed = false
+
+    const paddleSensibility = 5
+
+    function drawBall() {
+
+        ctx.beginPath()
+        ctx.arc(x, y, ballRadius, 0, Math.PI * 2)
+        ctx.fillStyle = '#1c1c1c'
+        ctx.fill() 
+        ctx.closePath()
+    }
+    
+    function drawPaddle() {
+        ctx.fillStyle = '#1c1c1c'
+        ctx.fillRect(
+            paddleX,
+            paddleY,
+            paddleWidth,
+            paddleHeight
+        )
+    }
+    function drawBricks() { }
+
+    function collisionDetection() { }
+    function paddleMovent() {
+        if (rightPressed && paddleX < canvas.width - paddleWidth) {
+            paddleX += paddleSensibility
+        } else if (leftPressed && paddleX > 0) {
+            paddleX -= paddleSensibility  
+        }
+    }
+    function ballMovent() {
+        // rebote en los laterales
+        if (
+            x + dx > canvas.width - ballRadius || // pared derecha
+            x + dx < ballRadius // pared izquierda
+        )  {
+            dx = -dx
+        }
+
+        // rebote arriba
+        if (y + dy < ballRadius) {
+            dy = -dy
+        }
+
+        if (y + dy > canvas.height - ballRadius) {
+            console.log('Game Over')
+            document.location.reload()
+        }
+
+        x += dx
+        y += dy
+    }
+
+    // Funciones
+    function cleanCanvas(){
+        ctx.clearRect(0, 0, canvas.width, canvas.height)
+    }
+
+    function initEvents () {
+        document.addEventListener('keydown', keyDownHandler)
+        document.addEventListener('keyup', keyUpHandler)
+
+        function keyDownHandler (event) {
+            const { key } = event
+            if (key === "Right" || key === 'ArrowRight') {
+                rightPressed = true
+            } else if (key === 'Left' || key === 'ArrowLeft') {
+                leftPressed = true
+            }
+        }
+
+        function keyUpHandler (event) {
+            const { key } = event
+            if (key === "Right" || key === 'ArrowRight') {
+                rightPressed = false
+            } else if (key === 'Left' || key === 'ArrowLeft') {
+                leftPressed = false
+            }
+        }
+    }
+
+    function draw (){
+        cleanCanvas()
+        /*elementos*/
+        drawBall()
+        drawPaddle()
+        drawBricks()
+
+        /*colisiones y movimientos*/
+        collisionDetection()
+        paddleMovent()
+        ballMovent()
+
+        window.requestAnimationFrame(draw)
+    }
+
+    draw()
+    initEvents()
+</script>
 </body>
-</html>
