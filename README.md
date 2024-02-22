@@ -20,6 +20,6 @@ git clone https://github.com/astnai/arkanoid.git
 
 ## Usage
 1. Open the `index.html` file in a web browser.
-2. Use the arrow keys or mouse to control the paddle.
+2. Use the arrow keys (left or right) to control the paddle.
 3. Break all the bricks by bouncing the ball off the paddle without letting it fall off the bottom of the screen.
 4. Enjoy the game!
