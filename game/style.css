@@ -1,0 +1,23 @@
+h1{
+    font-family: 'Montserrat', sans-serif;
+    font-size: 20px;
+    color: #1c1c1c;
+    text-align: center;
+    margin: 20 auto;
+    display: block;
+}
+
+body{
+    background-color: #fcfcfc;
+}
+
+canvas{
+    border: 2.5px solid #1c1c1c;
+    border-bottom: transparent;
+    background: #F2F3F5;
+    margin: 20 auto;
+    display: block;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px; 
+
+}

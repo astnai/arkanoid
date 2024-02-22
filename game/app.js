@@ -1,44 +1,4 @@
-<head>
-    <title>Arkanoid Minimalist Game</title>
-
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-
-    <style>
-        h1{
-            font-family: 'Montserrat', sans-serif;
-            font-size: 20px;
-            color: #1c1c1c;
-            text-align: center;
-            margin: 20 auto;
-            display: block;
-        }
-    
-        body{
-            background-color: #fcfcfc;
-        }
-    
-        canvas{
-            border: 2.5px solid #1c1c1c;
-            border-bottom: transparent;
-            background: #F2F3F5;
-            margin: 20 auto;
-            display: block;
-            border-top-left-radius: 8px;
-            border-top-right-radius: 8px; 
-    
-        }
-    </style>
-</head>
-
-<body>
-    
-<h1>Arkanoid Minimalist Game</h1>
-
-<canvas></canvas>
-<img hidden id="bricks" src="/img/bricksMonocromaticBlack.png" alt="bricks">
-
-<script>
-    const canvas =document.querySelector('canvas');
+const canvas =document.querySelector('canvas');
     const ctx = canvas.getContext('2d');
 
     const $bricks = document.querySelector('#bricks')
@@ -266,5 +226,3 @@
 
     draw()
     initEvents()
-</script>
-</body>
