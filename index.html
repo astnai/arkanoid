@@ -80,14 +80,22 @@
     }
     
     function drawPaddle() {
-        ctx.fillStyle = '#1c1c1c'
-        ctx.fillRect(
-            paddleX,
-            paddleY,
-            paddleWidth,
-            paddleHeight
-        )
-    }
+    ctx.fillStyle = '#1c1c1c';
+    var cornerRadius = 5; // radio de las esquinas redondeadas
+    ctx.beginPath();
+    ctx.moveTo(paddleX + cornerRadius, paddleY);
+    ctx.lineTo(paddleX + paddleWidth - cornerRadius, paddleY);
+    ctx.arcTo(paddleX + paddleWidth, paddleY, paddleX + paddleWidth, paddleY + cornerRadius, cornerRadius);
+    ctx.lineTo(paddleX + paddleWidth, paddleY + paddleHeight - cornerRadius);
+    ctx.arcTo(paddleX + paddleWidth, paddleY + paddleHeight, paddleX + paddleWidth - cornerRadius, paddleY + paddleHeight, cornerRadius);
+    ctx.lineTo(paddleX + cornerRadius, paddleY + paddleHeight);
+    ctx.arcTo(paddleX, paddleY + paddleHeight, paddleX, paddleY + paddleHeight - cornerRadius, cornerRadius);
+    ctx.lineTo(paddleX, paddleY + cornerRadius);
+    ctx.arcTo(paddleX, paddleY, paddleX + cornerRadius, paddleY, cornerRadius);
+    ctx.closePath();
+    ctx.fill();
+}
+
     function drawBricks() { }
 
     function collisionDetection() { }
@@ -112,7 +120,22 @@
             dy = -dy
         }
 
-        if (y + dy > canvas.height - ballRadius) {
+        // pelota toca paddle
+        const isBallSameXAsPaddle =
+            x > paddleX &&
+            x < paddleX + paddleWidth
+            
+        const isBallTouchingPaddle = 
+            y + dy > paddleY
+
+        if (isBallSameXAsPaddle && isBallTouchingPaddle) {
+            dy = -dy
+        }
+        
+        // pelota toca el suelo
+        else if (
+            y + dy > canvas.height - ballRadius
+            ) {
             console.log('Game Over')
             document.location.reload()
         }
