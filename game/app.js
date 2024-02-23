@@ -232,6 +232,41 @@ function draw() {
     window.requestAnimationFrame(draw);
 }
 
+// Function to draw the "Win" message
+function drawWinMessage() {
+    ctx.font = 'bold 30px Arial';
+    ctx.fillStyle = 'black';
+    ctx.textAlign = 'center';
+    ctx.fillText('Win', canvas.width / 2, canvas.height / 2);
+}
+
+// Main draw function
+function draw() {
+    cleanCanvas();
+    // Draw elements
+    drawBall();
+    drawPaddle();
+    drawBricks();
+    drawScore(); // Draw the score
+
+    // Handle collisions and movements
+    collisionDetection();
+    paddleMovement();
+    ballMovement();
+
+    if (score >= 48) {
+        drawWinMessage();
+        return; // Stop the game loop
+    }
+
+    if (gameOver) {
+        drawGameOver();
+        return; // Stop the game loop
+    }
+
+    window.requestAnimationFrame(draw);
+}
+
 // Start the game!
 draw();
 initEvents();
