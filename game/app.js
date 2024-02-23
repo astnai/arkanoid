@@ -263,7 +263,7 @@ function draw() {
         drawGameOver();
         return; // Stop the game loop
     }
-
+ 
     window.requestAnimationFrame(draw);
 }
 
