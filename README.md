@@ -1,25 +1,23 @@
-# Arkanoid Clone - Minimalist Style
+# Arkanoid Clone
 
-This project aims to replicate the classic game Arkanoid using a minimalist design approach. The game will be implemented solely using HTML, CSS, and JavaScript, with no external libraries or frameworks. The goal is to create a simple yet enjoyable gaming experience reminiscent of the original Arkanoid.
+## About
+This repository contains a minimalist-styled clone of the game Arkanoid developed exclusively with HTML, CSS, and JavaScript.
+
+## Objective
+The objective of this project is to recreate the classic game Arkanoid using only fundamental web technologies: HTML for structure, CSS for styling, and JavaScript for interactivity.
 
 ## Features
-- Classic gameplay inspired by Arkanoid.
-- Minimalist design using only HTML, CSS, and JavaScript.
-- Responsive layout for various screen sizes.
-- User-friendly controls for easy gameplay.
+- Player-controlled paddle to bounce the ball and break bricks.
+- Different levels of difficulty.
+- Score tracking system.
+- Simple and minimalist design for a sleek gaming experience.
 
 ## Technologies Used
-- HTML: Markup language for structuring the game layout.
-- CSS: Styling language for designing the game interface.
-- JavaScript: Programming language for implementing game logic and interactivity.
+- HTML
+- CSS
+- JavaScript
 
-## Installation
-1. Clone the repository:
-git clone https://github.com/astnai/arkanoid.git
-2. Open the project directory in your preferred code editor.
+## Preview
+[![Arkanoid Clone Preview](/img/example1.png)](index.html)
+[![Arkanoid Clone Preview](/img/example2.png)](index.html)
 
-## Usage
-1. Open the `index.html` file in a web browser.
-2. Use the arrow keys (left or right) to control the paddle.
-3. Break all the bricks by bouncing the ball off the paddle without letting it fall off the bottom of the screen.
-4. Enjoy the game!
